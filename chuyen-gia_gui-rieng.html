@@ -1,0 +1,846 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Phiếu chuyên gia EFE/IFE – TSARSI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap">
+<style>
+/* TSARSI survey kit. Concept: a drafting sheet set. Each part of the survey is a numbered
+   sheet with a title block; progress is drawn as a dimension line. Brand: TSARSI blue + black. */
+:root{
+  color-scheme: light;
+  --paper:#f4f8fb; --sheet:#ffffff; --ink:#000000; --text:#25313b; --muted:#5a6a77;
+  --rule:#d3dfe8; --grid:#e3edf4; --blue:#009bdf; --blue-ink:#0071a6; --blue-wash:#e6f5fc;
+  --err:#b23b1a; --err-wash:#fdf0eb; --ok:#2c7a4b;
+  --display:"Montserrat","Segoe UI",system-ui,sans-serif;
+  --body:"Be Vietnam Pro","Segoe UI",system-ui,sans-serif;
+  --radius:3px;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:96px}
+body{margin:0;background:var(--paper);color:var(--text);font:400 16px/1.6 var(--body);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:32px 32px;background-attachment:fixed}
+a{color:var(--blue-ink)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* ---------- top bar with dimension-line progress ---------- */
+.bar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);border-bottom:1px solid var(--rule);backdrop-filter:blur(6px)}
+.bar-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:20px;align-items:center}
+.logo{display:block;height:30px;width:auto}
+.wordmark{font:800 22px/1 var(--display);letter-spacing:.02em;color:var(--ink)}
+.wordmark b{color:var(--blue)}
+.dim{position:relative;height:30px;min-width:0}
+.dim .line{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--muted)}
+.dim .line::before,.dim .line::after{content:"";position:absolute;top:-7px;width:1px;height:15px;background:var(--muted)}
+.dim .line::before{left:0}.dim .line::after{right:0}
+.dim .fill{position:absolute;left:0;top:calc(50% - 2px);height:5px;background:var(--blue);transition:width .3s ease}
+.dim .label{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;padding:0 10px;font:600 13px/1 var(--body);
+  color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.lang{display:inline-flex;border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden}
+.lang button{border:0;background:#fff;font:600 13px var(--body);padding:6px 10px;color:var(--muted);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:#fff}
+
+/* ---------- page ---------- */
+.wrap{max-width:1180px;margin:0 auto;padding:32px 16px 80px}
+.narrow{max-width:980px}
+.head{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px;align-items:end;margin-bottom:28px}
+@media (max-width:820px){.head{grid-template-columns:minmax(0,1fr)}}
+h1{font:700 clamp(1.75rem,3.6vw,2.6rem)/1.12 var(--display);color:var(--ink);margin:0 0 12px;letter-spacing:-.01em;text-wrap:balance}
+.lede{font-size:1.06rem;max-width:62ch;margin:0}
+/* title block, as in the corner of a drawing */
+.tblock{border:1.5px solid var(--ink);background:var(--sheet);font-size:.84rem}
+.tblock div{display:grid;grid-template-columns:96px minmax(0,1fr);border-top:1px solid var(--ink)}
+.tblock div:first-child{border-top:0}
+.tblock dt{padding:6px 8px;border-right:1px solid var(--ink);color:var(--muted)}
+.tblock dd{margin:0;padding:6px 8px;color:var(--ink);font-weight:500}
+.consent{margin:0 0 28px;padding:12px 16px;border-left:3px solid var(--blue);background:var(--blue-wash);max-width:78ch;font-size:.93rem}
+
+/* ---------- sheets ---------- */
+.sheet{background:var(--sheet);border:1px solid var(--rule);border-radius:var(--radius);margin-bottom:28px;position:relative}
+.sheet-h{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center;padding:16px 20px;border-bottom:1.5px solid var(--ink)}
+.sheet-no{font:700 13px/1.15 var(--display);color:#fff;background:var(--ink);padding:8px 10px;text-align:center;min-width:64px}
+.sheet-no{font-size:20px;line-height:1.05}
+.sheet-no span{display:block;font:500 11px/1.3 var(--body);color:#cfe9f7}
+.sheet-h h2{font:700 1.18rem/1.25 var(--display);color:var(--ink);margin:0}
+.sheet-h p{margin:2px 0 0;color:var(--muted);font-size:.9rem}
+.q{display:grid;grid-template-columns:52px minmax(0,1fr);gap:4px 12px;padding:18px 20px;border-top:1px solid var(--grid)}
+.q:first-of-type{border-top:0}
+.q .qid{font:600 .82rem/1.9 var(--body);color:var(--blue-ink);font-variant-numeric:tabular-nums}
+.q .qt{margin:0 0 10px;color:var(--ink);font-weight:500;max-width:72ch}
+.q .ans{grid-column:2}
+.q.missing{background:var(--err-wash)}
+.q.missing .qid{color:var(--err)}
+.q .why{grid-column:2;color:var(--err);font-size:.85rem;margin-top:6px;display:none}
+.q.missing .why{display:block}
+.q[hidden]{display:none}
+@media (max-width:560px){.q{grid-template-columns:minmax(0,1fr)}.q .ans,.q .why{grid-column:1}.q .qid{line-height:1.2}}
+
+/* choices are real radio/checkbox inputs, styled as chips */
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts.stack{flex-direction:column;align-items:flex-start}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.chip span{display:inline-block;border:1px solid var(--rule);border-radius:var(--radius);padding:7px 14px;background:#fff;font-size:.93rem;cursor:pointer;
+  transition:background-color .12s,border-color .12s}
+.chip:hover span{border-color:var(--blue)}
+.chip input:checked+span{background:var(--blue-ink);border-color:var(--blue-ink);color:#fff}
+.chip input:focus-visible+span{outline:2px solid var(--blue);outline-offset:2px}
+.chip input:disabled+span{opacity:.4;cursor:not-allowed}
+/* numeric scales: equal-width cells */
+.scale{display:grid;gap:0;border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;max-width:520px}
+.scale .chip span{border:0;border-right:1px solid var(--rule);border-radius:0;width:100%;text-align:center;padding:8px 0;font-variant-numeric:tabular-nums}
+.scale .chip:last-child span{border-right:0}
+.scale-ends{display:flex;justify-content:space-between;max-width:520px;font-size:.78rem;color:var(--muted);margin-top:4px}
+textarea,input[type=text]{width:100%;max-width:640px;font:inherit;border:1px solid var(--rule);border-radius:var(--radius);padding:9px 11px;background:#fff;color:var(--ink)}
+textarea{min-height:72px;resize:vertical}
+
+/* ---------- submit ---------- */
+.submit{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:8px}
+.btn{font:600 1rem var(--display);border:0;border-radius:var(--radius);padding:13px 26px;background:var(--blue-ink);color:#fff;cursor:pointer}
+.btn:hover{background:#005e8b}
+.btn[disabled]{opacity:.6;cursor:progress}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--rule);font-weight:500;padding:9px 14px;font-size:.88rem}
+.status{font-size:.92rem;color:var(--muted)}
+.status.err{color:var(--err)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.done{background:var(--sheet);border:1.5px solid var(--ink);padding:40px 28px;text-align:left;max-width:640px}
+.done h2{font:700 1.6rem/1.2 var(--display);color:var(--ink);margin:0 0 8px}
+footer{max-width:1180px;margin:0 auto;padding:0 16px 40px;font-size:.8rem;color:var(--muted)}
+
+/* ---------- expert layout ---------- */
+.xgrid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:28px;align-items:start}
+@media (max-width:980px){.xgrid{grid-template-columns:minmax(0,1fr)}}
+.factor{padding:20px;border-top:1px solid var(--grid)}
+.factor:first-of-type{border-top:0}
+.factor-h{display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px}
+.fcode{font:700 .95rem/1.5 var(--display);color:var(--ink)}
+.fkind{font-size:.78rem;color:var(--muted);display:block;font-weight:400;font-family:var(--body)}
+.ftext{margin:0;color:var(--ink);font-weight:500;max-width:70ch}
+.fevid{margin:4px 0 0;font-size:.82rem;color:var(--muted)}
+.tag-confirm{display:inline-block;margin-left:6px;padding:1px 7px;border:1px solid #c98a12;color:#8a5b00;border-radius:var(--radius);font-size:.75rem;font-weight:600}
+.frows{margin:14px 0 0 64px;display:grid;gap:12px}
+@media (max-width:560px){.frows{margin-left:0}}
+.frow{display:grid;grid-template-columns:148px minmax(0,1fr);gap:12px;align-items:center}
+@media (max-width:640px){.frow{grid-template-columns:minmax(0,1fr)}}
+.frow label.lab{font-size:.86rem;color:var(--muted)}
+.factor.missing{background:var(--err-wash)}
+.factor .why{display:none;color:var(--err);font-size:.85rem;margin:8px 0 0 64px}
+.factor.missing .why{display:block}
+.factor.removed .ftext{text-decoration:line-through;color:var(--muted)}
+.scale10{grid-template-columns:repeat(10,minmax(0,1fr));max-width:440px}
+.scale4{grid-template-columns:repeat(4,minmax(0,1fr));max-width:440px}
+.scale2{grid-template-columns:repeat(2,minmax(0,1fr));max-width:220px}
+
+/* sticky readout = the drawing's title block */
+.readout{position:sticky;top:76px;display:grid;gap:16px}
+@media (max-width:980px){.readout{position:static}}
+.panel{background:var(--sheet);border:1.5px solid var(--ink)}
+.panel h3{margin:0;padding:10px 14px;font:700 .95rem var(--display);color:var(--ink);border-bottom:1px solid var(--ink)}
+.panel .pb{padding:12px 14px}
+.totals{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ink)}
+.totals>div{padding:12px 14px}
+.totals>div+div{border-left:1px solid var(--ink)}
+.totals .k{font-size:.8rem;color:var(--muted)}
+.totals .v{font:700 2.1rem/1.1 var(--display);color:var(--ink);font-variant-numeric:tabular-nums}
+.totals .s{font-size:.78rem;color:var(--muted)}
+.wlist{display:grid;gap:6px;font-size:.82rem}
+.wrow{display:grid;grid-template-columns:30px minmax(0,1fr) 44px;gap:8px;align-items:center}
+.wrow .b{height:7px;background:var(--grid);position:relative}
+.wrow .b i{position:absolute;inset:0 auto 0 0;background:var(--blue)}
+.wrow .n{text-align:right;font-variant-numeric:tabular-nums}
+.wrow.off{opacity:.35}
+.legend{font-size:.82rem;color:var(--muted);margin:0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---------- study + researcher (co-branded with HCMC Open University) ---------- */
+:root{--ou:#b8232a;--ou-deep:#701010}
+.ou-chip{display:inline-flex;align-items:center;background:var(--ou);border-radius:var(--radius);padding:4px 8px;height:34px}
+.ou-mini{height:24px;width:auto;display:block}
+@media (max-width:720px){.ou-chip{display:none}.bar-in{grid-template-columns:auto minmax(0,1fr) auto}}
+.about{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:0;background:var(--sheet);border:1.5px solid var(--ink);margin:0 0 24px}
+@media (max-width:900px){.about{grid-template-columns:minmax(0,1fr)}}
+.about-main{padding:22px 24px}
+.about-k{margin:0 0 6px;font-size:.85rem;color:var(--blue-ink);font-weight:600}
+.about h2{font:700 1.3rem/1.3 var(--display);color:var(--ink);margin:0 0 12px;max-width:52ch;text-wrap:balance}
+.about-main>p{margin:0 0 18px;max-width:70ch}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--rule);counter-reset:s}
+@media (max-width:640px){.steps{grid-template-columns:minmax(0,1fr)}}
+.steps li{padding:14px 16px 4px 0;counter-increment:s;position:relative}
+.steps li+li{padding-left:16px;border-left:1px solid var(--rule)}
+@media (max-width:640px){.steps li+li{padding-left:0;border-left:0;border-top:1px solid var(--rule)}}
+.steps h3{font:700 .95rem/1.3 var(--display);color:var(--ink);margin:0 0 4px}
+.steps h3::before{content:counter(s);display:inline-grid;place-items:center;width:22px;height:22px;margin-right:8px;background:var(--blue);color:#fff;font-size:.78rem;border-radius:50%;vertical-align:1px}
+.steps p{margin:0;font-size:.88rem;color:var(--muted)}
+.who{border-left:1.5px solid var(--ink);display:flex;flex-direction:column}
+@media (max-width:900px){.who{border-left:0;border-top:1.5px solid var(--ink)}}
+.ou{display:block;background:var(--ou);padding:16px 18px}
+.ou-logo{display:block;width:100%;max-width:280px;height:auto}
+.who-b{padding:16px 18px}
+.who-b p{margin:0}
+.who-k{font-size:.8rem;color:var(--muted)}
+.who-n{font:700 1.15rem/1.3 var(--display);color:var(--ink);margin:2px 0 4px!important}
+.who-r{font-size:.86rem;color:var(--text);margin-bottom:10px!important}
+.who-bio{font-size:.86rem;margin-bottom:10px!important}
+.who-s{font-size:.8rem;color:var(--muted);margin-top:6px!important}
+
+</style>
+</head>
+<body>
+<main id="app" class="wrap"></main>
+<footer>TSARSI Việt Nam · Nghiên cứu luận văn Thạc sĩ QTKD, Đại học Mở TP.HCM. Dữ liệu được gửi tới Google Sheet của người nghiên cứu khi bấm gửi; trước đó chỉ lưu tạm trên trình duyệt của Anh/Chị.</footer>
+<script>
+// The ONLY file you need to edit after deploying the Google Apps Script.
+// 1) ENDPOINT: the Web app URL from Apps Script (Deploy > New deployment > Web app), ending in /exec
+// 2) TOKEN: any random string; it must match TOKEN in apps-script/Code.gs.
+//    It only filters out random bots; it is visible in the page source, so it is not a password.
+window.SURVEY_CONFIG = {
+  ENDPOINT: "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE",
+  TOKEN: "tsarsi-2026-change-me",
+  VERSION: "2026-11-08"
+};
+
+</script>
+<script>
+// Study and researcher introduction shown at the top of both forms. Edit the wording here only.
+// Keep this text general: the page is reachable by anyone with the link, so it must not describe
+// specific security gaps at TSARSI (see README, "Riêng tư").
+window.STUDY = {
+  university: {
+    name: { vi: "Trường Đại học Mở Thành phố Hồ Chí Minh · Khoa Đào tạo Sau đại học", en: "Ho Chi Minh City Open University · Graduate School" },
+    logo: "https://sdh.ou.edu.vn/asset/img/sdh/logo.png",
+    logoRemote: "https://sdh.ou.edu.vn/asset/img/sdh/logo.png",
+    url: "https://sdh.ou.edu.vn/"
+  },
+  title: {
+    vi: "Giải pháp phòng thủ và chống lại các cuộc tấn công lừa đảo qua email (phishing) tại doanh nghiệp thuê ngoài: trường hợp TSARSI Việt Nam",
+    en: "Defending against email phishing attacks in an outsourcing company: the case of TSARSI Vietnam"
+  },
+  degree: { vi: "Luận văn Thạc sĩ Quản trị Kinh doanh, định hướng ứng dụng", en: "Applied MBA thesis" },
+  problem: {
+    vi: "TSARSI cung cấp đội ngũ kỹ thuật và văn phòng làm việc từ xa cho các công ty xây dựng tại Mỹ và Úc, nên email là kênh làm việc chính với khách hàng và nhà cung cấp. Đây cũng là kênh mà các hình thức lừa đảo như email giả mạo, giả danh lãnh đạo hoặc nhà cung cấp để yêu cầu thanh toán (BEC) nhắm tới nhiều nhất. Công ty đã đầu tư vào công nghệ bảo mật và đào tạo nhận thức theo ISO/IEC 27001:2022; nghiên cứu này xem xét các lớp phòng thủ đó đang phối hợp với nhau hiệu quả đến đâu.",
+    en: "TSARSI provides remote engineering and office teams to construction companies in the US and Australia, so email is the main working channel with clients and suppliers. It is also the channel most targeted by scams such as spoofed emails and executive or supplier impersonation to request payments (BEC). The company has invested in security technology and ISO/IEC 27001:2022 awareness training; this study examines how well those layers of defence work together."
+  },
+  steps: [
+    { h: { vi: "Đánh giá thực trạng", en: "Assess the current state" },
+      p: { vi: "Phân tích các sự cố đã ghi nhận, đối chiếu với các nhóm kiểm soát của ISO/IEC 27001:2022, khảo sát nhận thức và hành vi của nhân viên, và ý kiến chuyên gia.", en: "Analyse recorded incidents against ISO/IEC 27001:2022 control themes, survey employee awareness and behaviour, and gather expert judgement." } },
+    { h: { vi: "Xác định nguyên nhân gốc", en: "Find root causes" },
+      p: { vi: "Phân tích theo ba lớp con người, quy trình và công nghệ, tổng hợp trong ma trận EFE/IFE và SWOT/TOWS.", en: "Analyse the people, process and technology layers, summarised in EFE/IFE and SWOT/TOWS matrices." } },
+    { h: { vi: "Đề xuất cho Ban lãnh đạo", en: "Recommend to leadership" },
+      p: { vi: "Khung phòng thủ phishing và lộ trình triển khai theo thứ tự ưu tiên, với chi phí và chỉ số theo dõi phù hợp quy mô của TSARSI.", en: "A phishing defence framework and a prioritised roadmap, with costs and tracking indicators that fit TSARSI’s size." } }
+  ],
+  researcher: {
+    name: "Nguyễn Hữu Tân",
+    role: { vi: "Học viên cao học Quản trị Kinh doanh, lớp MBA2408B", en: "MBA candidate, class MBA2408B" },
+    bio: {
+      vi: "Có kinh nghiệm làm việc trong thiết kế sản phẩm và tìm nguồn cung (sourcing) cho hệ thống tự động hóa, xây dựng và vật liệu xây dựng. Song song, thực hiện nghiên cứu về an ninh mạng và chuỗi cung ứng logistics tái tạo.",
+      en: "Experience in product design and sourcing for automation systems, construction and building products, alongside research on cybersecurity and regenerative logistics supply chains."
+    },
+    supervisors: { vi: "Giảng viên hướng dẫn: TS. Nguyễn Ngọc Đan Thanh (Đại học Mở TP.HCM), TS. Trương Quang Huy (Đại học RMIT)", en: "Supervisors: Dr Nguyen Ngoc Dan Thanh (HCMC Open University), Dr Truong Quang Huy (RMIT University)" },
+    contact: ""   // optional, e.g. "Email: ten@domain.com" — leave empty to hide
+  }
+};
+
+</script>
+<script>
+window.SURVEY = {
+ "id": "expert",
+ "title": {
+  "vi": "Đánh giá các yếu tố phòng chống lừa đảo qua email tại TSARSI",
+  "en": "Factors in TSARSI’s defence against email phishing"
+ },
+ "lede": {
+  "vi": "Ý kiến của Anh/Chị được dùng để xây dựng ma trận EFE (yếu tố bên ngoài) và IFE (yếu tố bên trong) cho luận văn.",
+  "en": "Your judgement builds the EFE (external factor) and IFE (internal factor) matrices for the thesis."
+ },
+ "meta": [
+  [
+   {
+    "vi": "Thời gian",
+    "en": "Time"
+   },
+   {
+    "vi": "khoảng 25 phút",
+    "en": "about 25 minutes"
+   }
+  ],
+  [
+   {
+    "vi": "Người thực hiện",
+    "en": "Researcher"
+   },
+   {
+    "vi": "Nguyễn Hữu Tân, MBA2408B",
+    "en": "Nguyen Huu Tan, MBA2408B"
+   }
+  ],
+  [
+   {
+    "vi": "Cơ sở đào tạo",
+    "en": "University"
+   },
+   {
+    "vi": "Đại học Mở TP.HCM",
+    "en": "Ho Chi Minh City Open University"
+   }
+  ]
+ ],
+ "consent": {
+  "vi": "Thông tin chỉ dùng cho mục đích nghiên cứu, được bảo mật và chỉ trình bày ở dạng tổng hợp, không nêu tên cá nhân.",
+  "en": "Information is used for research only, kept confidential and reported in aggregate without naming individuals."
+ },
+ "external": [
+  {
+   "code": "O1",
+   "kind": {
+    "vi": "Cơ hội",
+    "en": "Opportunity"
+   },
+   "q": {
+    "vi": "Thị trường ngày càng có nhiều công cụ bảo mật email và máy tính dùng AI, có thể thuê theo tháng (lọc email lừa đảo, giám sát 24/7 thuê ngoài)",
+    "en": "More and more AI-based email and endpoint security tools are available on a subscription basis (phishing filtering, outsourced 24/7 monitoring)"
+   },
+   "evidence": "WEF (2026); NetNam (2026)",
+   "confirm": false
+  },
+  {
+   "code": "O2",
+   "kind": {
+    "vi": "Cơ hội",
+    "en": "Opportunity"
+   },
+   "q": {
+    "vi": "Khách hàng Mỹ, Úc đặt yêu cầu bảo mật ngày càng cao, tạo lý do và ngân sách để TSARSI đầu tư an ninh mạng",
+    "en": "US and Australian clients set increasingly high security requirements, giving TSARSI a reason and budget to invest in cybersecurity"
+   },
+   "evidence": "Hồ sơ khách hàng TSARSI (2026)",
+   "confirm": false
+  },
+  {
+   "code": "O3",
+   "kind": {
+    "vi": "Cơ hội",
+    "en": "Opportunity"
+   },
+   "q": {
+    "vi": "Chuẩn ISO/IEC 27001:2022 mà TSARSI đang áp dụng cung cấp sẵn danh mục kiểm soát để cải tiến, không cần xây dựng từ đầu",
+    "en": "The ISO/IEC 27001:2022 standard that TSARSI already applies provides a ready catalogue of controls for improvement, so nothing needs to be built from scratch"
+   },
+   "evidence": "ISO (2022); ComplianceForge (2025)",
+   "confirm": false
+  },
+  {
+   "code": "T1",
+   "kind": {
+    "vi": "Nguy cơ",
+    "en": "Threat"
+   },
+   "q": {
+    "vi": "Email lừa đảo và giả mạo lãnh đạo/nhà cung cấp để đòi thanh toán (BEC) ngày càng tinh vi, nhiều email do AI soạn nên khó nhận ra",
+    "en": "Phishing and executive/supplier impersonation for payments (BEC) are increasingly sophisticated; many emails are AI-written and hard to recognise"
+   },
+   "evidence": "VNETWORK (2026); Heiding et al. (2024); Almutairi et al. (2025)",
+   "confirm": false
+  },
+  {
+   "code": "T2",
+   "kind": {
+    "vi": "Nguy cơ",
+    "en": "Threat"
+   },
+   "q": {
+    "vi": "Rủi ro pháp lý khi xử lý dữ liệu của khách hàng Mỹ, Úc tại Việt Nam (luật an ninh mạng Việt Nam, luật bảo vệ quyền riêng tư Úc)",
+    "en": "Legal risk from processing US and Australian client data in Vietnam (Vietnam’s Cybersecurity Law, Australia’s Privacy Act)"
+   },
+   "evidence": "Luật ANM 116/2025/QH15; Privacy Act 1988 (Úc)",
+   "confirm": false
+  },
+  {
+   "code": "T3",
+   "kind": {
+    "vi": "Nguy cơ",
+    "en": "Threat"
+   },
+   "q": {
+    "vi": "Thị trường Việt Nam thiếu nhân sự an ninh mạng có kinh nghiệm; doanh nghiệp quy mô vừa khó tự tuyển và vận hành đội giám sát riêng",
+    "en": "Vietnam lacks experienced cybersecurity staff; mid-sized firms struggle to hire and run their own monitoring team"
+   },
+   "evidence": "NetNam (2026)",
+   "confirm": false
+  },
+  {
+   "code": "T4",
+   "kind": {
+    "vi": "Nguy cơ",
+    "en": "Threat"
+   },
+   "q": {
+    "vi": "Lừa đảo lan sang kênh ngoài email: tin nhắn Teams/Zalo, mã QR, cuộc gọi giả giọng lãnh đạo hoặc IT bằng AI",
+    "en": "Scams are spreading beyond email: Teams/Zalo messages, QR codes, and AI voice-cloned calls impersonating executives or IT"
+   },
+   "evidence": "Check Point (2026); Google Cloud (2025); VNETWORK (2026)",
+   "confirm": false
+  }
+ ],
+ "internal": [
+  {
+   "code": "S1",
+   "kind": {
+    "vi": "Điểm mạnh",
+    "en": "Strength"
+   },
+   "q": {
+    "vi": "Đã thuê dịch vụ phát hiện và xử lý mã độc 24/7 (SentinelOne EDR/MDR), cam kết phản ứng dưới 1 giờ",
+    "en": "A 24/7 malware detection and response service (SentinelOne EDR/MDR) is in place, with a response commitment under 1 hour"
+   },
+   "evidence": "Đề xuất SentinelOne đã duyệt (60 thiết bị)",
+   "confirm": false
+  },
+  {
+   "code": "S2",
+   "kind": {
+    "vi": "Điểm mạnh",
+    "en": "Strength"
+   },
+   "q": {
+    "vi": "Có quy trình xử lý sự cố bằng văn bản theo ISO/IEC 27001 và có nhật ký sự cố ghi chép đầy đủ",
+    "en": "A documented incident-management procedure based on ISO/IEC 27001 and a complete incident log"
+   },
+   "evidence": "QA-PR-006; Nhật ký QA-PR-006-01",
+   "confirm": false
+  },
+  {
+   "code": "S3",
+   "kind": {
+    "vi": "Điểm mạnh",
+    "en": "Strength"
+   },
+   "q": {
+    "vi": "Có kế hoạch khôi phục sau thảm họa: 3 bản sao lưu (2 tại chỗ, 1 trên cloud trong nước), mục tiêu khôi phục trong 4 giờ, và đã khôi phục thành công sau sự cố ransomware 07/2024",
+    "en": "A disaster recovery plan: 3 backups (2 on-premise, 1 domestic cloud), a 4-hour recovery target, and successful recovery after the July 2024 ransomware incident"
+   },
+   "evidence": "TSARSI DRP; Báo cáo sự cố RSW-17Jul24",
+   "confirm": false
+  },
+  {
+   "code": "S4",
+   "kind": {
+    "vi": "Điểm mạnh",
+    "en": "Strength"
+   },
+   "q": {
+    "vi": "Có chương trình đào tạo và kiểm tra nhận thức an toàn thông tin (12/2024: 61 người; 4/2025: 71 người; 58/58 người dự thi đạt)",
+    "en": "An information security awareness training and testing programme (Dec 2024: 61 attendees; Apr 2025: 71 attendees; 58/58 test-takers passed)"
+   },
+   "evidence": "Hồ sơ đào tạo TSARSI 2024–2025",
+   "confirm": false
+  },
+  {
+   "code": "S5",
+   "kind": {
+    "vi": "Điểm mạnh",
+    "en": "Strength"
+   },
+   "q": {
+    "vi": "Nhân viên đã tự phát hiện và báo cáo đúng nhiều email lừa đảo thật (12/2024; 04/2025; email giả Giám đốc Mua hàng 09/2025, không mất tiền)",
+    "en": "Employees have detected and correctly reported several real scam emails (Dec 2024; Apr 2025; fake Purchasing Director email in Sep 2025, no money lost)"
+   },
+   "evidence": "Nhật ký QA-PR-006-01",
+   "confirm": false
+  },
+  {
+   "code": "W1",
+   "kind": {
+    "vi": "Điểm yếu",
+    "en": "Weakness"
+   },
+   "q": {
+    "vi": "Bộ lọc email hiện tại vẫn để lọt email lừa đảo vào hộp thư (email giả mạo kèm tệp SVG 03/2025; email giả Giám đốc Mua hàng 09/2025)",
+    "en": "The current email filter still lets scam emails reach inboxes (spoofed email with SVG attachment, Mar 2025; fake Purchasing Director email, Sep 2025)"
+   },
+   "evidence": "Nhật ký QA-PR-006-01",
+   "confirm": false
+  },
+  {
+   "code": "W2",
+   "kind": {
+    "vi": "Điểm yếu",
+    "en": "Weakness"
+   },
+   "q": {
+    "vi": "Chưa có xác thực tên miền email ở mức chặn (DMARC), nên kẻ gian dễ giả mạo địa chỉ gửi",
+    "en": "Email domain authentication is not enforced at blocking level (DMARC), so attackers can easily spoof sender addresses"
+   },
+   "evidence": "Nhật ký 09/2025 (phân tích nguyên nhân)",
+   "confirm": false
+  },
+  {
+   "code": "W3",
+   "kind": {
+    "vi": "Điểm yếu",
+    "en": "Weakness"
+   },
+   "q": {
+    "vi": "An toàn trước BEC phụ thuộc vào sự cảnh giác của từng người; chưa rõ có bước bắt buộc gọi điện xác minh trước khi thanh toán",
+    "en": "Protection against BEC depends on individual vigilance; it is unclear whether a mandatory call-back verification step exists before payments"
+   },
+   "evidence": "Nhật ký 09/2025",
+   "confirm": true
+  },
+  {
+   "code": "W4",
+   "kind": {
+    "vi": "Điểm yếu",
+    "en": "Weakness"
+   },
+   "q": {
+    "vi": "Chưa rõ xác thực hai lớp (MFA) đã được bật bắt buộc cho toàn bộ tài khoản email hay chưa",
+    "en": "It is unclear whether multi-factor authentication (MFA) is mandatory for all email accounts"
+   },
+   "evidence": "Nhật ký 04/2025, 12/2025",
+   "confirm": true
+  },
+  {
+   "code": "W5",
+   "kind": {
+    "vi": "Điểm yếu",
+    "en": "Weakness"
+   },
+   "q": {
+    "vi": "Độ phủ chưa toàn diện: đào tạo, kiểm tra và EDR mới bao phủ khoảng 60–71 người/thiết bị so với khoảng 160 nhân sự",
+    "en": "Incomplete coverage: training, testing and EDR cover about 60–71 people/devices against roughly 160 staff"
+   },
+   "evidence": "Hồ sơ đào tạo; đề xuất SentinelOne",
+   "confirm": true
+  }
+ ],
+ "thanks": {
+  "vi": "Cảm ơn Anh/Chị. Đánh giá đã được ghi nhận.",
+  "en": "Thank you. Your assessment has been recorded."
+ }
+};
+
+</script>
+<script>
+/* TSARSI survey engine: renders window.SURVEY, validates, saves a local draft, posts to Google Sheets. */
+(function () {
+  "use strict";
+  const S = window.SURVEY, CFG = window.SURVEY_CONFIG || {};
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const store = {
+    get(k) { try { return JSON.parse(localStorage.getItem(k) || "null"); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+    del(k) { try { localStorage.removeItem(k); } catch (e) {} }
+  };
+  const DRAFT = "tsarsi-draft-" + S.id, LANGK = "tsarsi-lang", DONE = "tsarsi-done-" + S.id;
+  let lang = store.get(LANGK) || "vi";
+  const started = Date.now();
+  const UI = {
+    vi: { of: "câu", sheet: "Phần", submit: "Gửi câu trả lời", sending: "Đang gửi…", need: "Vui lòng trả lời câu này.",
+          missing: n => `Còn ${n} câu chưa trả lời. Các câu cần bổ sung được tô đỏ.`, fail: "Chưa gửi được. Kiểm tra kết nối mạng rồi bấm gửi lại; câu trả lời của Anh/Chị vẫn được giữ trên máy này.",
+          notcfg: "Biểu mẫu chưa được kết nối với Google Sheet (thiếu ENDPOINT trong assets/config.js).", draft: "Bản nháp được tự động lưu trên trình duyệt này.",
+          clear: "Xóa bản nháp", again: "Anh/Chị đã gửi khảo sát này trên thiết bị này. Nếu cần gửi lại, bấm “Trả lời lại”.", redo: "Trả lời lại",
+          keep: "Giữ", revise: "Sửa", remove: "Bỏ", lkeep: "Yếu tố này", limp: "Mức quan trọng (1–10)", lrate: "TSARSI hiện nay (1–4)", lnote: "Ghi chú",
+          notehint: "Nội dung cần sửa, hoặc lý do chấm điểm", needrev: "Vui lòng ghi nội dung cần sửa vào ô ghi chú.", confirm: "cần xác nhận",
+          evidence: "Căn cứ", low: "rất ít quan trọng", high: "rất quan trọng", likertLo: "Hoàn toàn không đồng ý", likertHi: "Hoàn toàn đồng ý" },
+    en: { of: "questions", sheet: "Part", submit: "Submit answers", sending: "Sending…", need: "Please answer this question.",
+          missing: n => `${n} question(s) still need an answer. They are highlighted in red.`, fail: "Could not send. Check your connection and submit again; your answers are still kept on this device.",
+          notcfg: "This form is not connected to Google Sheets yet (ENDPOINT missing in assets/config.js).", draft: "Your draft is saved automatically in this browser.",
+          clear: "Clear draft", again: "You have already submitted this survey on this device. To submit again, choose “Answer again”.", redo: "Answer again",
+          keep: "Keep", revise: "Revise", remove: "Remove", lkeep: "This factor", limp: "Importance (1–10)", lrate: "TSARSI today (1–4)", lnote: "Comment",
+          notehint: "Proposed wording, or the reason for your scores", needrev: "Please describe the revision in the comment box.", confirm: "to be confirmed",
+          evidence: "Evidence", low: "very low", high: "very high", likertLo: "Strongly disagree", likertHi: "Strongly agree" }
+  };
+  const t = o => (o && typeof o === "object") ? (o[lang] || o.vi) : (o || "");
+  const u = k => UI[lang][k];
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  /* ---------- shell ---------- */
+  function shell() {
+    document.body.insertAdjacentHTML("afterbegin", `
+    <div class="bar"><div class="bar-in">
+      <a href="https://www.tsarsi.com/" aria-label="TSARSI"><img class="logo" src="https://www.tsarsi.com/wp-content/uploads/TSARSI-LOGO-n.png" alt="TSARSI"
+        onerror="this.onerror=function(){this.replaceWith(Object.assign(document.createElement('span'),{className:'wordmark',innerHTML:'TSAR<b>SI</b>'}))};this.src='https://www.tsarsi.com/wp-content/uploads/TSARSI-LOGO-n.png'"></a>
+      <div class="dim" aria-hidden="true"><div class="line"></div><div class="fill" id="fill" style="width:0"></div><div class="label" id="plabel"></div></div>
+      <span class="ou-chip">${ouImg("ou-mini")}</span><div class="lang" role="group" aria-label="Language"><button type="button" data-l="vi">VI</button><button type="button" data-l="en">EN</button></div>
+    </div></div>`);
+    $$(".lang button").forEach(b => b.onclick = () => { snapshot(); lang = b.dataset.l; store.set(LANGK, lang); render(); });
+  }
+
+  /* ---------- render ---------- */
+  const app = () => $("#app");
+  function header() {
+    return `<div class="head"><div><h1>${esc(t(S.title))}</h1><p class="lede">${esc(t(S.lede))}</p></div>
+      <dl class="tblock">${S.meta.map(([k, v]) => `<div><dt>${esc(t(k))}</dt><dd>${esc(t(v))}</dd></div>`).join("")}</dl></div>
+      ${study()}<p class="consent">${esc(t(S.consent))}</p>`;
+  }
+  function ouImg(cls) {
+    const U = (window.STUDY || {}).university || {};
+    return `<img class="${cls}" src="${U.logo}" alt="${esc(t(U.name))}" onerror="this.onerror=function(){this.style.display='none'};this.src='${U.logoRemote}'">`;
+  }
+  function study() {
+    const D = window.STUDY; if (!D) return "";
+    const R = D.researcher;
+    return `<section class="about" aria-labelledby="about-h">
+      <div class="about-main">
+        <p class="about-k">${esc(t(D.degree))}</p>
+        <h2 id="about-h">${esc(t(D.title))}</h2>
+        <p>${esc(t(D.problem))}</p>
+        <ol class="steps">${D.steps.map(s => `<li><h3>${esc(t(s.h))}</h3><p>${esc(t(s.p))}</p></li>`).join("")}</ol>
+      </div>
+      <aside class="who">
+        <a class="ou" href="${D.university.url}" target="_blank" rel="noopener">${ouImg("ou-logo")}</a>
+        <div class="who-b">
+          <p class="who-k">${lang === "vi" ? "Người thực hiện" : "Researcher"}</p>
+          <p class="who-n">${esc(R.name)}</p>
+          <p class="who-r">${esc(t(R.role))}<br>${esc(t(D.university.name))}</p>
+          <p class="who-bio">${esc(t(R.bio))}</p>
+          <p class="who-s">${esc(t(R.supervisors))}</p>
+          ${R.contact ? `<p class="who-s">${esc(R.contact)}</p>` : ""}
+        </div>
+      </aside>
+    </section>`;
+  }
+  const chip = (name, v, label, type = "radio", extra = "") =>
+    `<label class="chip"><input type="${type}" name="${name}" value="${esc(v)}" ${extra}><span>${esc(label)}</span></label>`;
+
+  function item(it) {
+    let a = "";
+    if (it.type === "choice" || it.type === "tfu" || it.type === "multi") {
+      const stack = it.options.some(o => t(o).length > 28) ? " stack" : "";
+      a = `<div class="opts${stack}" role="${it.type === "multi" ? "group" : "radiogroup"}" aria-labelledby="t-${it.id}">` +
+        it.options.map(o => chip(it.id, o.v, t(o), it.type === "multi" ? "checkbox" : "radio")).join("") + `</div>`;
+    } else if (it.type === "likert") {
+      a = `<div class="scale" style="grid-template-columns:repeat(5,minmax(0,1fr))" role="radiogroup" aria-labelledby="t-${it.id}">` +
+        [1, 2, 3, 4, 5].map(n => chip(it.id, n, n)).join("") + `</div><div class="scale-ends"><span>1 · ${u("likertLo")}</span><span>5 · ${u("likertHi")}</span></div>`;
+    } else if (it.type === "text") {
+      a = it.short ? `<input type="text" name="${it.id}" aria-labelledby="t-${it.id}" autocomplete="off">` : `<textarea name="${it.id}" aria-labelledby="t-${it.id}"></textarea>`;
+    }
+    const sf = it.showIf ? ` data-showif="${it.showIf.id}=${it.showIf.eq}"` : "";
+    return `<div class="q" id="q-${it.id}" data-id="${it.id}" data-req="${it.required === false ? 0 : 1}"${sf}>
+      <div class="qid">${it.id}</div><p class="qt" id="t-${it.id}">${esc(t(it.q))}</p><div class="ans">${a}</div><div class="why">${u("need")}</div></div>`;
+  }
+
+  function sheetHead(no, total, title, desc) {
+    return `<div class="sheet-h"><div class="sheet-no"><span>${u("sheet")}</span>${no}</div>
+      <div><h2>${esc(title)}</h2>${desc ? `<p>${esc(desc)}</p>` : ""}</div></div>`;
+  }
+
+  function renderEmployee() {
+    const n = S.sections.length;
+    app().innerHTML = header() + `<form id="f" novalidate>` +
+      S.sections.map(s => `<section class="sheet" aria-labelledby="h-${s.id}">${sheetHead(s.id, n, t(s.title), t(s.desc)).replace("<h2>", `<h2 id="h-${s.id}">`)}
+        ${s.items.map(item).join("")}</section>`).join("") + submitBlock() + `</form>`;
+  }
+
+  /* expert: one block per factor; S rated 3–4, W rated 1–2, O/T rated 1–4 */
+  function factorBlock(f) {
+    const g = f.code[0], rate = g === "S" ? [3, 4] : g === "W" ? [1, 2] : [1, 2, 3, 4];
+    const rlabels = { O: ["kém", "trung bình", "khá", "tốt"], T: ["kém", "trung bình", "khá", "tốt"] };
+    const rcls = rate.length === 2 ? "scale2" : "scale4";
+    return `<div class="factor" id="q-${f.code}" data-code="${f.code}">
+      <div class="factor-h"><div class="fcode">${f.code}<span class="fkind">${esc(t(f.kind))}</span></div>
+        <div><p class="ftext">${esc(t(f.q))}${f.confirm ? `<span class="tag-confirm">${u("confirm")}</span>` : ""}</p>
+        <p class="fevid">${u("evidence")}: ${esc(f.evidence)}</p></div></div>
+      <div class="frows">
+        <div class="frow"><label class="lab">${u("lkeep")}</label><div class="opts">${chip(f.code + "_keep", "keep", u("keep"))}${chip(f.code + "_keep", "revise", u("revise"))}${chip(f.code + "_keep", "remove", u("remove"))}</div></div>
+        <div class="frow"><label class="lab">${u("limp")}</label><div><div class="scale scale10">${[...Array(10)].map((_, i) => chip(f.code + "_imp", i + 1, i + 1)).join("")}</div>
+          <div class="scale-ends" style="max-width:440px"><span>1 ${u("low")}</span><span>10 ${u("high")}</span></div></div></div>
+        <div class="frow"><label class="lab">${u("lrate")}</label><div class="scale ${rcls}">${rate.map(v => chip(f.code + "_rate", v, v)).join("")}</div></div>
+        <div class="frow"><label class="lab" for="n-${f.code}">${u("lnote")}</label><textarea id="n-${f.code}" name="${f.code}_note" placeholder="${u("notehint")}"></textarea></div>
+      </div><div class="why"></div></div>`;
+  }
+  const EXPERT_INFO = [
+    { id: "X1", type: "text", short: true, q: { vi: "Họ và tên", en: "Full name" } },
+    { id: "X2", type: "text", short: true, q: { vi: "Chức vụ, đơn vị công tác", en: "Position and organisation" } },
+    { id: "X3", type: "choice", q: { vi: "Lĩnh vực chuyên môn", en: "Field of expertise" }, options: [
+      { v: "it", vi: "CNTT, an ninh mạng", en: "IT, cybersecurity" }, { v: "mgmt", vi: "Quản lý điều hành", en: "Executive management" },
+      { v: "fin", vi: "Kế toán, tài chính", en: "Accounting, finance" }, { v: "other", vi: "Khác", en: "Other" }] },
+    { id: "X4", type: "choice", q: { vi: "Số năm kinh nghiệm liên quan", en: "Years of relevant experience" }, options: [
+      { v: "lt5", vi: "Dưới 5 năm", en: "Under 5 years" }, { v: "5to10", vi: "5–10 năm", en: "5–10 years" }, { v: "gt10", vi: "Trên 10 năm", en: "Over 10 years" }] },
+    { id: "X5", type: "choice", q: { vi: "Quan hệ với TSARSI", en: "Relationship to TSARSI" }, options: [
+      { v: "internal", vi: "Làm việc tại TSARSI", en: "Work at TSARSI" }, { v: "partner", vi: "Đối tác, nhà cung cấp dịch vụ", en: "Partner or service provider" },
+      { v: "external", vi: "Chuyên gia bên ngoài", en: "External expert" }] }];
+  const EXPERT_END = [
+    { id: "Z1", type: "choice", q: { vi: "Danh sách yếu tố đã phản ánh đủ tình hình phòng chống phishing của TSARSI chưa?", en: "Do the factors adequately reflect TSARSI’s phishing-prevention situation?" },
+      options: [{ v: "full", vi: "Đầy đủ", en: "Complete" }, { v: "mostly", vi: "Cơ bản đầy đủ", en: "Mostly complete" }, { v: "missing", vi: "Còn thiếu", en: "Incomplete" }] },
+    { id: "Z2", type: "text", q: { vi: "Yếu tố mới Anh/Chị đề xuất (nếu có): nội dung, loại (O/T/S/W), mức quan trọng 1–10 và điểm 1–4", en: "Any new factor you propose: wording, type (O/T/S/W), importance 1–10 and rating 1–4" }, required: false },
+    { id: "Z3", type: "text", q: { vi: "Theo Anh/Chị, đâu là điểm yếu lớn nhất hiện nay của TSARSI trong phòng chống lừa đảo qua email? Vì sao?", en: "What is TSARSI’s biggest current weakness against email scams? Why?" } },
+    { id: "Z4", type: "text", q: { vi: "Nhân viên đạt điểm rất cao trong bài kiểm tra nhận thức 4/2025, nhưng email lừa đảo vẫn lọt vào. Điều này phản ánh vấn đề ở công nghệ, quy trình hay hành vi nhân viên? Yếu tố nào lớn nhất?", en: "Staff scored very highly in the April 2025 awareness test, yet scam emails still get through. Is this mainly technology, process or employee behaviour?" } },
+    { id: "Z5", type: "text", q: { vi: "Nếu chỉ được ưu tiên MỘT khoản đầu tư trong 12 tháng tới, Anh/Chị chọn gì và vì sao?", en: "If only ONE investment could be prioritised in the next 12 months, what would it be and why?" } },
+    { id: "Z6", type: "text", q: { vi: "Các giải pháp (lọc email nâng cao, DMARC, MFA, đào tạo mô phỏng phishing…) có phù hợp với nguồn lực của TSARSI không? Giải pháp nào khó nhất?", en: "Are the solutions under discussion (advanced filtering, DMARC, MFA, phishing simulation…) realistic for TSARSI? Which is hardest?" }, required: false }];
+
+  function renderExpert() {
+    const scaleHelp = lang === "vi"
+      ? "Với mỗi yếu tố: chọn Giữ, Sửa hoặc Bỏ; chấm mức quan trọng 1–10 (chấm độc lập, các yếu tố có thể cùng điểm); và chấm TSARSI hiện nay làm tốt đến đâu. Yếu tố bên ngoài: 1 phản ứng kém, 2 trung bình, 3 khá, 4 tốt. Điểm mạnh chỉ chấm 3 (nhỏ) hoặc 4 (lớn); điểm yếu chỉ chấm 1 (lớn) hoặc 2 (nhỏ). Anh/Chị không cần tính trọng số."
+      : "For each factor: keep, revise or remove it; rate its importance 1–10 (independently, ties allowed); and rate how well TSARSI performs today. External factors: 1 poor, 2 average, 3 good, 4 superior. Strengths are rated only 3 (minor) or 4 (major); weaknesses only 1 (major) or 2 (minor). No weight calculation is needed.";
+    app().classList.remove("narrow");
+    app().innerHTML = header() + `<p class="consent" style="background:#fff;border-left-color:var(--ink)">${esc(scaleHelp)}</p>
+      <form id="f" novalidate><div class="xgrid"><div>
+        <section class="sheet">${sheetHead("1", 4, lang === "vi" ? "Thông tin chuyên gia" : "About you", "")}${EXPERT_INFO.map(item).join("")}</section>
+        <section class="sheet">${sheetHead("2", 4, lang === "vi" ? "Yếu tố bên ngoài (ma trận EFE)" : "External factors (EFE matrix)", lang === "vi" ? "Cơ hội (O) và nguy cơ (T)" : "Opportunities (O) and threats (T)")}${S.external.map(factorBlock).join("")}</section>
+        <section class="sheet">${sheetHead("3", 4, lang === "vi" ? "Yếu tố bên trong (ma trận IFE)" : "Internal factors (IFE matrix)", lang === "vi" ? "Điểm mạnh (S) và điểm yếu (W)" : "Strengths (S) and weaknesses (W)")}${S.internal.map(factorBlock).join("")}</section>
+        <section class="sheet">${sheetHead("4", 4, lang === "vi" ? "Đánh giá chung" : "Overall view", "")}${EXPERT_END.map(item).join("")}</section>
+        ${submitBlock()}
+      </div><aside class="readout" aria-live="polite">
+        <div class="panel"><h3>${lang === "vi" ? "Tổng điểm theo đánh giá của Anh/Chị" : "Totals from your ratings"}</h3>
+          <div class="totals"><div><div class="k">EFE</div><div class="v" id="efe">–</div><div class="s">/ 4,00</div></div>
+          <div><div class="k">IFE</div><div class="v" id="ife">–</div><div class="s">/ 4,00</div></div></div>
+          <div class="pb"><p class="legend">${lang === "vi" ? "Mốc trung bình là 2,50 (David & David, 2022). Trọng số = điểm quan trọng ÷ tổng điểm quan trọng trong cùng ma trận; yếu tố chọn “Bỏ” không được tính." : "The midpoint is 2.50 (David & David, 2022). Weight = importance ÷ sum of importance in the same matrix; removed factors are excluded."}</p></div></div>
+        <div class="panel"><h3>${lang === "vi" ? "Trọng số hiện tại" : "Current weights"}</h3><div class="pb"><div class="wlist" id="wlist"></div></div></div>
+      </aside></div></form>`;
+  }
+
+  const submitBlock = () => `<div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+    <div class="submit"><button class="btn" id="send" type="submit">${u("submit")}</button><button class="btn ghost" id="clear" type="button">${u("clear")}</button>
+    <span class="status" id="status" role="status">${u("draft")}</span></div>`;
+
+  /* ---------- state ---------- */
+  function collect() {
+    const fd = new FormData($("#f")), out = {};
+    for (const [k, v] of fd.entries()) { if (k === "website") continue; out[k] = out[k] ? out[k] + ";" + v : v; }
+    return out;
+  }
+  let cache = {};
+  function snapshot() { if ($("#f")) { cache = collect(); store.set(DRAFT, cache); } }
+  function restore(data) {
+    Object.entries(data || {}).forEach(([k, v]) => {
+      const els = $$(`[name="${CSS.escape(k)}"]`);
+      els.forEach(el => {
+        if (el.type === "radio") el.checked = String(v) === el.value;
+        else if (el.type === "checkbox") el.checked = String(v).split(";").includes(el.value);
+        else el.value = v;
+      });
+    });
+  }
+  function visibleItems() {
+    return $$(".q").filter(q => !q.hidden);
+  }
+  function applyLogic(data) {
+    $$(".q[data-showif]").forEach(q => {
+      const [id, eq] = q.dataset.showif.split("=");
+      const show = data[id] === eq; q.hidden = !show;
+      if (!show) $$("input,textarea", q).forEach(el => { if (el.type === "radio" || el.type === "checkbox") el.checked = false; else el.value = ""; });
+    });
+    if (S.id === "expert") $$(".factor").forEach(f => {
+      const c = f.dataset.code, removed = data[c + "_keep"] === "remove";
+      f.classList.toggle("removed", removed);
+      $$(`[name="${c}_imp"],[name="${c}_rate"]`, f).forEach(el => { el.disabled = removed; if (removed) el.checked = false; });
+    });
+  }
+  function counts(data) {
+    if (S.id === "expert") {
+      const fs = [...S.external, ...S.internal];
+      let need = 0, done = 0;
+      fs.forEach(f => { need += 1; if (data[f.code + "_keep"] && (data[f.code + "_keep"] === "remove" || (data[f.code + "_imp"] && data[f.code + "_rate"]))) done += 1; });
+      const req = $$(".q").filter(q => q.dataset.req === "1");
+      need += req.length; done += req.filter(q => data[q.dataset.id]).length;
+      return [done, need];
+    }
+    const req = visibleItems().filter(q => q.dataset.req === "1");
+    return [req.filter(q => data[q.dataset.id]).length, req.length];
+  }
+  function update() {
+    const data = collect(); applyLogic(data); const d2 = collect();
+    const [done, need] = counts(d2);
+    $("#fill").style.width = (need ? 100 * done / need : 0) + "%";
+    $("#plabel").textContent = `${done} / ${need} ${S.id === "expert" ? (lang === "vi" ? "mục" : "items") : u("of")}`;
+    if (S.id === "expert") readout(d2);
+    cache = d2; store.set(DRAFT, d2);
+    $$(".missing").forEach(m => { if (isAnswered(m, d2)) m.classList.remove("missing"); });
+  }
+  function readout(d) {
+    const fmt = x => x.toFixed(2).replace(".", lang === "vi" ? "," : ".");
+    const calc = list => {
+      const act = list.filter(f => d[f.code + "_keep"] !== "remove" && d[f.code + "_imp"]);
+      const sum = act.reduce((a, f) => a + +d[f.code + "_imp"], 0);
+      const rated = act.filter(f => d[f.code + "_rate"]);
+      const tot = rated.reduce((a, f) => a + (+d[f.code + "_imp"] / sum) * +d[f.code + "_rate"], 0);
+      const complete = list.every(f => d[f.code + "_keep"] === "remove" || (d[f.code + "_imp"] && d[f.code + "_rate"]));
+      return { sum, tot, complete, w: f => (act.includes(f) ? +d[f.code + "_imp"] / sum : 0) };
+    };
+    const e = calc(S.external), i = calc(S.internal);
+    $("#efe").textContent = e.complete && e.sum ? fmt(e.tot) : "–";
+    $("#ife").textContent = i.complete && i.sum ? fmt(i.tot) : "–";
+    $("#wlist").innerHTML = [...S.external.map(f => [f, e]), ...S.internal.map(f => [f, i])].map(([f, m]) => {
+      const w = m.w(f), off = d[f.code + "_keep"] === "remove";
+      return `<div class="wrow${off ? " off" : ""}"><span>${f.code}</span><span class="b"><i style="width:${Math.min(100, w * 100 * 3)}%"></i></span><span class="n">${w ? fmt(w) : "–"}</span></div>`;
+    }).join("");
+  }
+  function isAnswered(el, d) {
+    if (el.classList.contains("factor")) {
+      const c = el.dataset.code, k = d[c + "_keep"];
+      if (!k) return false;
+      if (k === "remove") return true;
+      if (k === "revise" && !(d[c + "_note"] || "").trim()) return false;
+      return !!(d[c + "_imp"] && d[c + "_rate"]);
+    }
+    return el.dataset.req !== "1" || !!(d[el.dataset.id] || "").toString().trim();
+  }
+
+  /* ---------- submit ---------- */
+  async function submit(ev) {
+    ev.preventDefault();
+    const d = collect(), status = $("#status");
+    if ($("[name=website]").value) return;
+    const targets = [...visibleItems(), ...$$(".factor")].filter(el => !isAnswered(el, d));
+    targets.forEach(el => {
+      el.classList.add("missing");
+      if (el.classList.contains("factor")) {
+        const c = el.dataset.code;
+        $(".why", el).textContent = d[c + "_keep"] === "revise" && !(d[c + "_note"] || "").trim() ? u("needrev") : u("need");
+      }
+    });
+    if (targets.length) {
+      status.className = "status err"; status.textContent = u("missing")(targets.length);
+      targets[0].scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
+      const first = $("input,textarea", targets[0]); if (first) first.focus({ preventScroll: true });
+      return;
+    }
+    if (!CFG.ENDPOINT || /PASTE_/.test(CFG.ENDPOINT)) { status.className = "status err"; status.textContent = u("notcfg"); return; }
+    const btn = $("#send"); btn.disabled = true; btn.textContent = u("sending"); status.className = "status"; status.textContent = "";
+    const rid = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2));
+    const payload = { form: S.id, token: CFG.TOKEN, version: CFG.VERSION, response_id: rid, lang, duration_sec: Math.round((Date.now() - started) / 1000), answers: d };
+    try {
+      const r = await fetch(CFG.ENDPOINT, { method: "POST", body: JSON.stringify(payload) }); // text/plain: no CORS preflight
+      const j = await r.json().catch(() => ({ ok: r.ok }));
+      if (!j.ok) throw new Error(j.error || "rejected");
+      finish();
+    } catch (err) {
+      btn.disabled = false; btn.textContent = u("submit");
+      status.className = "status err"; status.textContent = u("fail");
+    }
+  }
+  function finish() {
+    store.del(DRAFT); store.set(DONE, true);
+    app().innerHTML = `<div class="done" tabindex="-1"><h2>${esc(t(S.thanks))}</h2><p>${lang === "vi" ? "Anh/Chị có thể đóng trang này." : "You can close this page now."}</p></div>`;
+    $("#fill").style.width = "100%"; $(".done").focus(); window.scrollTo(0, 0);
+  }
+
+  /* ---------- boot ---------- */
+  function render() {
+    document.documentElement.lang = lang;
+    $$(".lang button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.l === lang)));
+    if (store.get(DONE)) {
+      app().innerHTML = `<div class="done"><h2>${esc(t(S.thanks))}</h2><p>${u("again")}</p><button class="btn ghost" id="redo" type="button">${u("redo")}</button></div>`;
+      $("#redo").onclick = () => { store.del(DONE); render(); };
+      $("#plabel").textContent = ""; return;
+    }
+    S.id === "expert" ? renderExpert() : renderEmployee();
+    restore(Object.keys(cache).length ? cache : store.get(DRAFT));
+    $("#f").addEventListener("change", update);
+    $("#f").addEventListener("input", e => { if (e.target.tagName === "TEXTAREA") update(); });
+    $("#f").addEventListener("submit", submit);
+    $("#clear").onclick = () => { store.del(DRAFT); cache = {}; render(); };
+    update();
+  }
+  shell(); render();
+})();
+
+</script>
+</body>
+</html>
